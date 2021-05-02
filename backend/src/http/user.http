@@ -1,0 +1,15 @@
+GET http://localhost:3001/api/users
+Content-Type: application/json
+###
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "userName": "Alan Turing",
+  "avatarURI": "https://i.imgur.com/M6GGG3g.jpeg",
+  "bio": "",
+  "isBot": false,
+  "chats": []
+}
+###
