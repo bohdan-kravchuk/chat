@@ -1,15 +1,18 @@
 import { Layout } from 'components/Layout';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { ChatScene } from 'scenes/Chat';
+import { BrowserRouter as Router } from 'react-router-dom';
 import store from 'store.js';
+import { Routing } from 'containers/Routing';
 
 export const App = () => {
   return (
     <Provider store={store}>
-      <Layout>
-        <ChatScene />
-      </Layout>
+      <Router>
+        <Layout>
+          <Routing />
+        </Layout>
+      </Router>
     </Provider>
   );
 };
