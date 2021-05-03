@@ -1,43 +1,39 @@
 import React from 'react';
 import { FormControl } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { ChatItem } from 'scenes/Chat/components/ChatItem';
 import { ChatSidebarTabs } from 'scenes/Chat/components/ChatSidebarTabs';
 import styles from './styles.module.sass';
 
-const chatList = [
-  {
-    id: '1',
-    avatarURI: 'https://i.imgur.com/klXF37f.jpeg',
-    userName: 'Cat Meow',
-    info: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id, enim.',
-    isOnline: true,
-  },
-  {
-    id: '1',
-    avatarURI: 'https://i.imgur.com/klXF37f.jpeg',
-    userName: 'Cat Meow',
-    info: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id, enim.',
-    isOnline: true,
-  },
-];
-
 export const ChatSidebar = () => {
+  // @ts-ignore
+  const chatsByIds = useSelector(({ chat }) => chat.entities);
+  // @ts-ignore
+  const usersByIds = useSelector(({ user }) => user.entities);
+  // @ts-ignore
+  const currentUser = useSelector(({ auth }) => auth.currentUser);
+
+  const chatList = Object.values(chatsByIds).map(({ id, users }) => {
+    const [firstUserId, secondUserId] = users;
+    const companionId = firstUserId === currentUser.id ? secondUserId : firstUserId;
+    const { avatarURI, userName, isOnline, info } = usersByIds[companionId];
+    return (
+      <ChatItem
+        key={id}
+        avatarURI={avatarURI}
+        userName={userName}
+        isOnline={isOnline}
+        info={info}
+        isActive={false}
+      />
+    );
+  });
+
   return (
     <div className={styles.chatSidebar}>
       <ChatSidebarTabs onSelect={() => {}} />
       <div className={styles.tabContent}>
-        <div className={styles.chatList}>
-          {chatList.map(({ id, avatarURI, userName, isOnline, info }) => (
-            <ChatItem
-              key={id}
-              avatarURI={avatarURI}
-              userName={userName}
-              isOnline={isOnline}
-              info={info}
-              isActive={false}
-            />
-          ))}
-        </div>
+        <div className={styles.chatList}>{chatList}</div>
         <div className={styles.searchWrapper}>
           <FormControl placeholder="Search..." />
         </div>
