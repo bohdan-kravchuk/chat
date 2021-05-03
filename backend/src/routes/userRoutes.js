@@ -1,17 +1,17 @@
 import { Router } from 'express';
 import { run } from '../helpers/routeHelper';
-import { createUser, getUsers } from '../services/userService';
+import { createUser, getUser } from '../services/userService';
 
 const router = Router();
 
 router
-  .get(
-    '/',
-    run(() => getUsers())
-  )
   .post(
     '/',
     run((req) => createUser(req.body))
+  )
+  .get(
+    '/:userName',
+    run((req) => getUser(req.params))
   );
 
 export default router;
