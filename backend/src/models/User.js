@@ -5,10 +5,14 @@ const userSchema = new Schema(
     userName: {
       type: String,
       required: true,
+      unique: true,
+      trim: true,
+      minLength: 2,
+      maxLength: 32,
     },
     avatarURI: {
       type: String,
-      required: true,
+      default: 'https://i.imgur.com/WxNkK7J.png',
     },
     bio: {
       type: String,
@@ -21,10 +25,6 @@ const userSchema = new Schema(
     isBot: {
       type: Boolean,
       default: false,
-    },
-    chats: {
-      type: [String],
-      default: [],
     },
   },
   {
