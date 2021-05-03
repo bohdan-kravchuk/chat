@@ -6,9 +6,6 @@ const makeRequest = (method) => async (url, payload, reqConfig) => {
     method,
     baseURL: env.apiUrl,
     url,
-    headers: {
-      'Access-Control-Allow-Origin': window.location.origin,
-    },
     ...(payload && { data: payload }),
     ...reqConfig,
   };
