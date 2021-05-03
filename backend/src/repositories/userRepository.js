@@ -6,14 +6,18 @@ class UserRepository extends BaseRepository {
     super(User);
   }
 
-  getUsers() {
-    return this.collection.find({}, '_id userName avatarURI bio isOnline isBot chats');
+  getByUserName(userName) {
+    return this.collection.findOne({ userName }, 'userName avatarURI bio');
   }
 
   async createUser(userData) {
     const user = new this.collection(userData);
     await user.save();
     return user;
+  }
+
+  getAllExceptCurrent(userName) {
+    return this.collection.find({ userName: { $ne: userName } });
   }
 }
 
