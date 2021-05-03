@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { initial } from './asyncActions';
+import { initial } from 'state/asyncActions';
 
-const chatAdapter = createEntityAdapter();
+const userAdapter = createEntityAdapter();
 
 const initialState = {
   ids: [],
@@ -10,17 +10,17 @@ const initialState = {
   error: null,
 };
 
-export const chatSlice = createSlice({
-  name: 'chat',
+export const userSlice = createSlice({
+  name: 'user',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(initial.fulfilled, (state, { payload }) => {
-      chatAdapter.upsertMany(state, payload.chats);
+      userAdapter.upsertMany(state, payload.users);
     });
   },
 });
 
-export const {} = chatSlice.actions;
+export const {} = userSlice.actions;
 
-export default chatSlice.reducer;
+export default userSlice.reducer;
