@@ -1,0 +1,64 @@
+.message
+  font-size: 14px
+  color: var(--abbey)
+  filter: drop-shadow(2.5px 4.33px 4px var(--boxShadow))
+  border-radius: 7px
+  position: relative
+  width: 77%
+  margin-bottom: 20px
+
+.message.isOwn
+  align-self: flex-end
+
+.header
+  background-color: var(--heather)
+  padding: 7px 20px
+  color: var(--cloudBurst)
+  border-radius: 7px 7px 0 0
+  display: flex
+  justify-content: space-between
+
+.isOwn .header
+  background-color: var(--pancho)
+  color: var(--walnut)
+
+.content
+  background-color: var(--white)
+  padding: 12px 20px
+  position: relative
+  border-radius: 0 0 7px 7px
+
+.header,
+.content
+  font-weight: 600
+
+.content::before
+  content: ''
+  position: absolute
+  top: 50%
+  left: -6px
+  transform: translateY(-50%) rotate(45deg)
+  width: 22px
+  height: 22px
+  background-color: var(--white)
+  display: inline-block
+  vertical-align: middle
+
+.isOwn .content::before
+  left: auto
+  right: -6px
+
+.createdTime
+  color: var(--gullGray)
+  font-weight: normal
+
+.isOwn .createdTime
+  color: var(--quicksand)
+
+.seenTime
+  position: absolute
+  bottom: -2px
+  left: 15px
+  transform: translateY(100%)
+  font-size: 12px
+  color: var(--gullGray)
