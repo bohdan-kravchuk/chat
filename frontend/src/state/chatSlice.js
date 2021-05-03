@@ -6,6 +6,7 @@ const chatAdapter = createEntityAdapter();
 const initialState = {
   ids: [],
   entities: {},
+  activeId: null,
   loading: false,
   error: null,
 };
@@ -13,7 +14,11 @@ const initialState = {
 export const chatSlice = createSlice({
   name: 'chat',
   initialState,
-  reducers: {},
+  reducers: {
+    selectChat(state, action) {
+      state.activeId = action.payload.id;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(initial.fulfilled, (state, { payload }) => {
       chatAdapter.upsertMany(state, payload.chats);
@@ -21,6 +26,6 @@ export const chatSlice = createSlice({
   },
 });
 
-export const {} = chatSlice.actions;
+export const { selectChat } = chatSlice.actions;
 
 export default chatSlice.reducer;
