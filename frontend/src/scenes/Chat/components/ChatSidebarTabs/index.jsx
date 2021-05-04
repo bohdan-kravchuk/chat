@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import styles from './styles.module.sass';
 
@@ -7,16 +7,9 @@ const chatSidebarTabs = {
   all: { key: 'all', title: 'All' },
 };
 
-export const ChatSidebarTabs = ({ onSelect }) => {
-  const [activeKey, setActiveKey] = useState('online');
-
-  const onTabSelect = (key) => {
-    setActiveKey(key);
-    onSelect(key);
-  };
-
+export const ChatSidebarTabs = ({ activeKey, onSelect }) => {
   return (
-    <Tabs activeKey={activeKey} onSelect={onTabSelect}>
+    <Tabs activeKey={activeKey} onSelect={onSelect}>
       {Object.values(chatSidebarTabs).map(({ key, title }) => (
         <Tab
           key={key}

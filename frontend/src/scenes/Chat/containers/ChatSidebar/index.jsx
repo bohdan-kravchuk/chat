@@ -24,6 +24,7 @@ export const ChatSidebar = () => {
   const debouncedSearchText = useDebounce(searchText, delay);
   const chats = useMemo(() => Object.values(chatsByIds), [chatsByIds]);
   const [filteredChats, setFilteredChats] = useState(chats);
+  const [activeTabKey, setActiveTabKey] = useState('online');
 
   const filterChatsByName = useCallback(
     (name) => {
@@ -53,11 +54,15 @@ export const ChatSidebar = () => {
     setSearchText(event.target.value);
   };
 
+  const onTabSelect = (key) => {
+    setActiveTabKey(key);
+  };
+
   const chatList = filteredChats.map(({ id, users }) => {
     const [firstUserId, secondUserId] = users;
     const companionId = firstUserId === currentUser.id ? secondUserId : firstUserId;
     const { avatarURI, userName, isOnline, info } = usersByIds[companionId];
-    return (
+    return activeTabKey !== 'online' || isOnline ? (
       <ChatItem
         key={id}
         id={id}
@@ -68,12 +73,12 @@ export const ChatSidebar = () => {
         isActive={id === activeChatId}
         onClick={onChatSelect}
       />
-    );
+    ) : null;
   });
 
   return (
     <div className={styles.chatSidebar}>
-      <ChatSidebarTabs onSelect={() => {}} />
+      <ChatSidebarTabs onSelect={onTabSelect} activeKey={activeTabKey} />
       <div className={styles.tabContent}>
         <div className={styles.chatList}>{chatList}</div>
         <div className={styles.searchWrapper}>
