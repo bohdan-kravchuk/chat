@@ -2,3 +2,8 @@ html,
 body,
 #root
   height: 100%
+
+$bostomBlue: #428aca
+
+.btn-primary
+  @include button-variant($bostomBlue, darken($bostomBlue, 7.5%), darken($bostomBlue, 10%), lighten($bostomBlue,5%), darken($bostomBlue, 7.5%), darken($bostomBlue,30%))
