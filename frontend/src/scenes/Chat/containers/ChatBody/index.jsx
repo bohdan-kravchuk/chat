@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, FormControl } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { Message } from '../Message';
+import { Message } from '../../components/Message';
 import styles from './styles.module.sass';
 
 export const ChatBody = () => {

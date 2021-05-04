@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { ChatBody } from 'scenes/Chat/components/ChatBody';
+import { ChatBody } from 'scenes/Chat/containers/ChatBody';
 import { ChatHeader } from 'scenes/Chat/components/ChatHeader';
 import styles from './styles.module.sass';
 
