@@ -16,6 +16,10 @@ class UserRepository extends BaseRepository {
     return user;
   }
 
+  updateUser(id, userData) {
+    return this.collection.updateOne({ _id: id }, { $set: userData });
+  }
+
   getAllExceptCurrent(userName) {
     return this.collection.find({ userName: { $ne: userName } });
   }
