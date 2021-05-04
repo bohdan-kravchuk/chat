@@ -4,15 +4,18 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import store from 'store.js';
 import { Routing } from 'containers/Routing';
+import { SocketProvider } from 'containers/SocketProvider';
 
 export const App = () => {
   return (
     <Provider store={store}>
-      <Router>
-        <Layout>
-          <Routing />
-        </Layout>
-      </Router>
+      <SocketProvider>
+        <Router>
+          <Layout>
+            <Routing />
+          </Layout>
+        </Router>
+      </SocketProvider>
     </Provider>
   );
 };

@@ -1,9 +1,7 @@
-import { env } from 'env';
-import { io } from 'socket.io-client';
 import { messageHandlers } from './messageHandlers';
+import { userHandlers } from './userHandlers';
 
-export const socket = io(env.apiUrl);
-
-export const connectSocketHandlers = () => {
-  messageHandlers();
+export const connectSocketHandlers = (socket) => {
+  messageHandlers(socket);
+  userHandlers(socket);
 };
