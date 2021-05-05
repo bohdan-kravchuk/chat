@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { SocketContext } from 'containers/SocketProvider';
+import React, { useContext, useRef, useState } from 'react';
 import { Button, FormControl } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Message } from '../../components/Message';
@@ -6,11 +7,15 @@ import styles from './styles.module.sass';
 
 export const ChatBody = () => {
   const [messageContent, setMessageContent] = useState('');
+  const socket = useContext(SocketContext);
+  const messageListRef = useRef(null);
   const isDisabled = !messageContent.trim();
   // @ts-ignore
+  const chatId = useSelector(({ chat }) => chat.activeId);
+  // @ts-ignore
   const chatMessagesIds = useSelector(({ chat }) => {
-    if (chat.activeId) {
-      return chat.entities[chat.activeId].messages;
+    if (chatId) {
+      return chat.entities[chatId].messages;
     }
     return [];
   });
@@ -25,7 +30,12 @@ export const ChatBody = () => {
     setMessageContent(event.target.value);
   };
 
-  const onSendMessage = () => {};
+  const onSendMessage = () => {
+    if (messageContent.trim()) {
+      socket.emit('message:send', messageContent, chatId);
+      setMessageContent('');
+    }
+  };
 
   const onKeyDown = (event) => {
     if (event.key === 'Enter' && !isDisabled) {
@@ -35,14 +45,15 @@ export const ChatBody = () => {
 
   const messageList = chatMessagesIds.map((id) => {
     const message = messagesByIds[id];
+    const isOwn = message.userId === currentUser.id;
     return message ? (
       <Message
         key={id}
-        author={usersByIds[message.userId]?.userName}
+        author={isOwn ? currentUser.userName : usersByIds[message.userId]?.userName}
         content={message.content}
         createdAt={message.createdAt}
         readAt={message.readAt}
-        isOwn={message.userId === currentUser.id}
+        isOwn={isOwn}
       />
     ) : null;
   });
@@ -50,7 +61,12 @@ export const ChatBody = () => {
   return (
     <div className={styles.container}>
       <div className={styles.chatBody}>
-        <div className={styles.messageList}>{messageList}</div>
+        <div className={styles.messageListWrapper}>
+          <div className={styles.messageList} ref={messageListRef}>
+            {messageList}
+          </div>
+        </div>
+
         <div className={styles.controls}>
           <div className={styles.typingIndicator}></div>
           <FormControl

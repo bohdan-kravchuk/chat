@@ -16,7 +16,7 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(initial.fulfilled, (state, { payload }) => {
-      userAdapter.upsertMany(state, payload.users);
+      userAdapter.addMany(state, payload.users);
     });
   },
 });

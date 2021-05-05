@@ -13,14 +13,17 @@ const initialState = {
 export const messageSlice = createSlice({
   name: 'message',
   initialState,
-  reducers: {},
+  reducers: {
+    getMessage: messageAdapter.addOne,
+    sendMessage: messageAdapter.addOne,
+  },
   extraReducers: (builder) => {
     builder.addCase(initial.fulfilled, (state, { payload }) => {
-      messageAdapter.upsertMany(state, payload.messages);
+      messageAdapter.addMany(state, payload.messages);
     });
   },
 });
 
-export const {} = messageSlice.actions;
+export const { getMessage, sendMessage } = messageSlice.actions;
 
 export default messageSlice.reducer;

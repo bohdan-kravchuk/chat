@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { initial } from './asyncActions';
+import { getMessage } from './messageSlice';
 
 const chatAdapter = createEntityAdapter();
 
@@ -21,7 +22,10 @@ export const chatSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(initial.fulfilled, (state, { payload }) => {
-      chatAdapter.upsertMany(state, payload.chats);
+      chatAdapter.addMany(state, payload.chats);
+    });
+    builder.addCase(getMessage, (state, { payload }) => {
+      state.entities[payload.chatId].messages.push(payload.id);
     });
   },
 });
