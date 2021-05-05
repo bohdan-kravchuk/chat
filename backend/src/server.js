@@ -44,7 +44,7 @@ async function start() {
       },
     });
     io.on('connection', (socket) => {
-      registerSockets(socket);
+      registerSockets(io, socket);
     });
     httpServer.listen(port, () => {
       console.log(`Server is running at ${port}`);

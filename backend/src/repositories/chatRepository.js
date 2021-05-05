@@ -13,6 +13,10 @@ class ChatRepository extends BaseRepository {
     return this.collection.insertMany(chats);
   }
 
+  addChatMessage(_id, messageId) {
+    return this.collection.updateOne({ _id }, { $push: { messages: messageId } });
+  }
+
   getManyByUserId(userId) {
     return this.collection.find({ users: userId });
   }

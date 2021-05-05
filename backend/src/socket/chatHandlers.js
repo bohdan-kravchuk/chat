@@ -1,1 +1,1 @@
-export const chatHandlers = (socket) => {};
+export const chatHandlers = (io, socket) => {};

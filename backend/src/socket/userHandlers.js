@@ -1,12 +1,8 @@
 import { updateUser } from '../services/userService';
 
-export const userHandlers = (socket) => {
-  socket.on('user:initial', async (userId) => {
-    socket.userId = userId;
-    socket.join(userId);
-    await updateUser(userId, { isOnline: true });
-  });
+export const userHandlers = (io, socket) => {
   socket.on('disconnect', async () => {
+    console.log('socket disconnected');
     await updateUser(socket.userId, { isOnline: false });
   });
 };

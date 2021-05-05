@@ -6,7 +6,7 @@ export const initial = async ({ userName }) => {
   const users = await userRepository.getAllExceptCurrent(userName);
   let currentUser = await userRepository.getByUserName(userName);
   if (!currentUser) {
-    currentUser = await userRepository.createUser({ userName });
+    currentUser = await userRepository.create({ userName });
     await chatRepository.createChats(currentUser, users);
   }
   const chats = await chatRepository.getManyByUserId(currentUser.id);
