@@ -18,6 +18,7 @@ Install the following tools on your computer:
 
 ```
 npm install
+npm run seed
 npm start
 ```
 
@@ -31,3 +32,8 @@ npm start
 npm install
 npm start
 ```
+
+### Some details
+
+There are three pre-created users: `Trinity`, `Neo` and `Morpheus`.
+You can use these usernames to start chatting or input your own (new user will be created) on authentication page.
