@@ -13,20 +13,25 @@
   right: 0
   bottom: 0
 
+.messageListWrapper
+  display: flex
+  flex-direction: column-reverse
+  overflow-y: scroll
+  flex: 1 1 auto
+
 .messageList
   display: flex
   flex-direction: column
   padding: 0 24px 0 10px
-  overflow-y: scroll
 
-.messageList::-webkit-scrollbar
+.messageListWrapper::-webkit-scrollbar
   width: 10px
 
-.messageList::-webkit-scrollbar-track
+.messageListWrapper::-webkit-scrollbar-track
   border-radius: 5px
   background-color: var(--heather)
 
-.messageList::-webkit-scrollbar-thumb
+.messageListWrapper::-webkit-scrollbar-thumb
   border-radius: 5px
   background-color: var(--slider)
 
