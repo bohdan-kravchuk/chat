@@ -13,7 +13,9 @@ const initialState = {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    updateUser: userAdapter.upsertOne,
+  },
   extraReducers: (builder) => {
     builder.addCase(initial.fulfilled, (state, { payload }) => {
       userAdapter.addMany(state, payload.users);
@@ -21,6 +23,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const {} = userSlice.actions;
+export const { updateUser } = userSlice.actions;
 
 export default userSlice.reducer;

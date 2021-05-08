@@ -9,5 +9,5 @@ export const getUser = ({ userName }) => {
 };
 
 export const updateUser = (id, userData) => {
-  return userRepository.updateUser(id, userData);
+  return userRepository.findAndUpdateById(id, userData);
 };

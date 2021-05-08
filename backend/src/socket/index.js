@@ -8,7 +8,8 @@ const onConnection = async (socket) => {
   const { userId } = socket.handshake.query;
   socket.userId = userId;
   socket.join(userId);
-  await updateUser(userId, { isOnline: true });
+  const user = await updateUser(userId, { isOnline: true });
+  socket.broadcast.emit('user:update', user);
 };
 
 export const registerSockets = (io, socket) => {

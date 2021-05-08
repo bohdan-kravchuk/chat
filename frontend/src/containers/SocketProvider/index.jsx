@@ -21,9 +21,6 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (socket) {
       connectSocketHandlers(socket);
-      return () => {
-        socket.disconnect();
-      };
     }
   }, [socket]);
 
