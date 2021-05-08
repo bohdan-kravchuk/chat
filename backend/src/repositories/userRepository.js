@@ -7,7 +7,7 @@ class UserRepository extends BaseRepository {
   }
 
   getByUserName(userName) {
-    return this.collection.findOne({ userName }, 'userName avatarURI bio');
+    return this.collection.findOne({ userName }, 'userName avatarURI bio isBot');
   }
 
   updateUser(_id, userData) {

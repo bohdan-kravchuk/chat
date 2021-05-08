@@ -1,12 +1,43 @@
-import { getChat } from '../services/chatService';
+import { getChatWithUsers } from '../services/chatService';
 import { createMessage } from '../services/messageService';
+
+const handleBotMessage = async (socket, companion, message) => {
+  let botMessage;
+
+  switch (companion.userName) {
+    case 'Echo bot':
+      botMessage = await createMessage({
+        content: message.content,
+        chatId: message.chatId,
+        userId: companion.id,
+      });
+      socket.emit('message:get', botMessage);
+      break;
+
+    case 'Reverse bot':
+      botMessage = await createMessage({
+        content: message.content.split('').reverse().join(''),
+        chatId: message.chatId,
+        userId: companion.id,
+      });
+      setTimeout(() => socket.emit('message:get', botMessage), 3000);
+      break;
+
+    default:
+      break;
+  }
+};
 
 export const messageHandlers = (io, socket) => {
   socket.on('message:send', async (content, chatId) => {
     const message = await createMessage({ content, chatId, userId: socket.userId });
-    const { users } = await getChat(chatId);
-    users.forEach((userId) => {
-      io.in(userId.toString()).emit('message:get', message);
+    const { users } = await getChatWithUsers(chatId);
+    const companion = users.find(({ id }) => id !== socket.userId);
+    users.forEach(({ id }) => {
+      io.in(id.toString()).emit('message:get', message);
     });
+    if (companion.isBot) {
+      handleBotMessage(socket, companion, message);
+    }
   });
 };

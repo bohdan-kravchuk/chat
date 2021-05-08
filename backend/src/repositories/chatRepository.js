@@ -17,8 +17,16 @@ class ChatRepository extends BaseRepository {
     return this.collection.updateOne({ _id }, { $push: { messages: messageId } });
   }
 
-  getManyByUserId(userId) {
+  getChatsByUserId(userId) {
     return this.collection.find({ users: userId });
+  }
+
+  getChatByUserIds(users) {
+    return this.collection.findOne({ users: { $all: users } });
+  }
+
+  getChatWithUsers(_id) {
+    return this.collection.findOne({ _id }).populate('users').exec();
   }
 }
 
