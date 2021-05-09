@@ -20,6 +20,8 @@ export const ChatSidebar = ({ onChatClick = () => {} }) => {
   const usersByIds = useSelector(({ user }) => user.entities);
   // @ts-ignore
   const currentUser = useSelector(({ auth }) => auth.currentUser);
+  // @ts-ignore
+  const messagesByIds = useSelector(({ message }) => message.entities);
   const dispatch = useDispatch();
   const debouncedSearchText = useDebounce(searchText, delay);
   const chats = useMemo(() => Object.values(chatsByIds), [chatsByIds]);
@@ -59,10 +61,13 @@ export const ChatSidebar = ({ onChatClick = () => {} }) => {
     setActiveTabKey(key);
   };
 
-  const chatList = filteredChats.map(({ id, users }) => {
+  const chatList = filteredChats.map(({ id, users, messages }) => {
     const [firstUserId, secondUserId] = users;
     const companionId = firstUserId === currentUser.id ? secondUserId : firstUserId;
-    const { avatarURI, userName, isOnline, info } = usersByIds[companionId];
+    const { avatarURI, userName, isOnline } = usersByIds[companionId];
+    const lastMessageId = messages[messages.length - 1];
+    const info = messagesByIds[lastMessageId]?.content ?? '';
+
     return activeTabKey !== 'online' || isOnline ? (
       <ChatItem
         key={id}
