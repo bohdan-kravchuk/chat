@@ -1,4 +1,4 @@
-import { Navbar } from 'components/Navbar';
+import { Navbar } from 'containers/Navbar';
 import React from 'react';
 import styles from './styles.module.sass';
 
