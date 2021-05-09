@@ -1,4 +1,4 @@
-import { getChatWithUsers } from '../services/chatService';
+import { getChat, getChatWithUsers } from '../services/chatService';
 import { createMessage } from '../services/messageService';
 
 const handleBotMessage = async (socket, companion, message) => {
@@ -32,12 +32,19 @@ export const messageHandlers = (io, socket) => {
   socket.on('message:send', async (content, chatId) => {
     const message = await createMessage({ content, chatId, userId: socket.userId });
     const { users } = await getChatWithUsers(chatId);
-    const companion = users.find(({ id }) => id !== socket.userId);
+    const companion = users.find(({ id }) => id.toString() !== socket.userId);
     users.forEach(({ id }) => {
       io.in(id.toString()).emit('message:get', message);
     });
     if (companion.isBot) {
       handleBotMessage(socket, companion, message);
     }
+  });
+  socket.on('message:typing', async (chatId) => {
+    const chat = await getChat(chatId);
+    if (!chat) return;
+    const companionId = chat.users.find((userId) => userId.toString() != socket.userId);
+    if (!companionId) return;
+    socket.to(companionId.toString()).emit('message:typing', chatId);
   });
 };

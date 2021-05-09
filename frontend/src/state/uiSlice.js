@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   showSidebarMenu: false,
+  typingIndicator: { show: false, chatId: null },
 };
 
 export const uiSlice = createSlice({
@@ -11,9 +12,19 @@ export const uiSlice = createSlice({
     toggleSidebarMenu(state) {
       state.showSidebarMenu = !state.showSidebarMenu;
     },
+    showTypingIndicator(state, { payload }) {
+      state.typingIndicator = { show: true, chatId: payload };
+    },
+    hideTypingIndicator(state) {
+      state.typingIndicator = { show: false, chatId: null };
+    },
   },
 });
 
-export const { toggleSidebarMenu } = uiSlice.actions;
+export const {
+  toggleSidebarMenu,
+  showTypingIndicator,
+  hideTypingIndicator,
+} = uiSlice.actions;
 
 export default uiSlice.reducer;

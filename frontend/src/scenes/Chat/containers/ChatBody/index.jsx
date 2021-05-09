@@ -1,9 +1,14 @@
 import { SocketContext } from 'containers/SocketProvider';
-import React, { useContext, useRef, useState } from 'react';
+import { useThrottleFn } from 'hooks/useThrottle';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, FormControl } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { hideTypingIndicator } from 'state/uiSlice';
 import { Message } from '../../components/Message';
 import styles from './styles.module.sass';
+
+const throttleDelay = 300;
+const typingIndicatorTime = 500;
 
 export const ChatBody = () => {
   const [messageContent, setMessageContent] = useState('');
@@ -25,6 +30,29 @@ export const ChatBody = () => {
   const usersByIds = useSelector(({ user }) => user.entities);
   // @ts-ignore
   const currentUser = useSelector(({ auth }) => auth.currentUser);
+  // @ts-ignore
+  const typingIndicator = useSelector(({ ui }) => ui.typingIndicator);
+  const dispatch = useDispatch();
+  const timerIdRef = useRef(null);
+
+  useThrottleFn(
+    (content) => {
+      if (content) {
+        socket.emit('message:typing', chatId);
+      }
+    },
+    throttleDelay,
+    [messageContent]
+  );
+
+  useEffect(() => {
+    if (typingIndicator.show) {
+      timerIdRef.current && clearTimeout(timerIdRef.current);
+      timerIdRef.current = setTimeout(() => {
+        dispatch(hideTypingIndicator());
+      }, typingIndicatorTime);
+    }
+  }, [typingIndicator, dispatch]);
 
   const onChange = (event) => {
     setMessageContent(event.target.value);
@@ -68,7 +96,11 @@ export const ChatBody = () => {
         </div>
 
         <div className={styles.controls}>
-          <div className={styles.typingIndicator}></div>
+          <div className={styles.typingIndicator}>
+            {chatId === typingIndicator.chatId &&
+              typingIndicator.show &&
+              `${currentUser.userName} is typing...`}
+          </div>
           <FormControl
             placeholder="Start chatting!"
             className={styles.input}
