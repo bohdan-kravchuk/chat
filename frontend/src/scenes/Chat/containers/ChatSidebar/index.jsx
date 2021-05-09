@@ -10,7 +10,7 @@ import styles from './styles.module.sass';
 
 const delay = 500;
 
-export const ChatSidebar = () => {
+export const ChatSidebar = ({ onChatClick = () => {} }) => {
   const [searchText, setSearchText] = useState('');
   // @ts-ignore
   const chatsByIds = useSelector(({ chat }) => chat.entities);
@@ -48,6 +48,7 @@ export const ChatSidebar = () => {
 
   const onChatSelect = (id) => {
     dispatch(selectChat({ id }));
+    onChatClick?.();
   };
 
   const onChange = (event) => {

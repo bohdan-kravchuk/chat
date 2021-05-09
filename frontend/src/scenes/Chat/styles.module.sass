@@ -3,11 +3,27 @@
   display: flex
   flex: 1 1 auto
 
-.container
-  margin: 20px auto 50px
+.chatScene .container
+  margin: 1.25rem auto 3.125rem
   display: flex
 
 .row
   flex: 1 1 auto
   border-radius: 4px
   overflow: hidden
+  position: relative
+
+.chat
+  height: 100%
+
+@media screen and (max-width: 768px)
+  .chatScene .container
+    margin: 0
+    padding: 0
+
+  .row
+    border-radius: 0
+
+@media screen and (max-width: 576px)
+  .row .sidebar
+    display: none

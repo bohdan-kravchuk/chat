@@ -3,7 +3,7 @@
   position: relative
 
 .chatBody
-  padding: 20px 10px
+  padding: 1.25rem 0.625rem
   display: flex
   flex-direction: column
   justify-content: space-between
@@ -17,12 +17,13 @@
   display: flex
   flex-direction: column-reverse
   overflow-y: auto
+  overflow-x: hidden
   flex: 1 1 auto
 
 .messageList
   display: flex
   flex-direction: column
-  padding: 0 24px 0 10px
+  padding: 0 1.5rem 0 0.625rem
 
 .messageListWrapper::-webkit-scrollbar
   width: 10px
@@ -36,25 +37,24 @@
   background-color: var(--slider)
 
 .controls
-  padding-right: 20px
+  padding-right: 1.25rem
   display: flex
-  gap: 10px
+  gap: 0.625rem
   position: relative
-  padding-top: 25px
+  padding-top: 1.5625rem
 
 .controls .input
-  font-size: 14px
+  font-size: 0.875rem
 
 .controls .sendBtn
-  font-size: 14px
-  padding-right: 55px
-  padding-left: 55px
+  font-size: 0.875rem
+  padding: 0 3.4375rem
   flex: 1 0 auto
 
 .typingIndicator
   height: 25px
   color: var(--bostomBlue)
-  font-size: 14px
+  font-size: 0.875rem
   display: flex
   justify-content: center
   align-items: center
@@ -62,3 +62,7 @@
   top: 0
   left: 50%
   transform: translateX(-50%)
+
+@media screen and (max-width: 768px)
+  .controls .sendBtn
+    padding: 0 0.625rem
